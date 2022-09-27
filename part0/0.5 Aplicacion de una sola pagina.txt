@@ -1,0 +1,23 @@
+title 0.5 wserAplicacion de una sola pagina
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+Server->Browser: HTML code
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+Server->Browser: CSS code
+Browser->Server: https://studies.cs.helsinki.fi/exampleapp/spa.js
+Server->Browser: JS code
+
+note left of Browser:
+The browser executes the javascript code, 
+and requests a json file from the server.
+end note
+
+
+Browser->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+Server->Browser: data json
+
+
+note left of Browser:
+the browser executes the event 
+handler, to display the notes.
+end note
+
