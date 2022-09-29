@@ -1,28 +1,7 @@
 import React, { useState } from "react"
 import Filter from "./components/Filter"
 import PersonForm from "./components/PersonForm"
-import { Persons } from "./components/Persons"
-
-/*const Person = ({ person }) => {
-  return (
-    <li>{person.name} {person.number}</li>
-  )
-}*/
-
-/*
-const Filter = ({ persons, filter }) => {
-  
-  return (
-    <div>
-      {persons.filter(person => 
-          person.name.toLowerCase().includes(filter.toLowerCase()))
-          .map(person=>(<Person key={person.name} person={person}/>))
-      }
-    </div>
-
-  )
-}*/
-
+import  Persons  from "./components/Persons"
 
 export const App = () => {
   const [persons, setPersons] = useState([

@@ -1,5 +1,4 @@
 import React from "react";
-import { Persons } from "./Persons";
 
 export const Filter = ({ newFilter, handleFilter }) => {
     return(
