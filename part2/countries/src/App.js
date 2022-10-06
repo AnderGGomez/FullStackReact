@@ -20,18 +20,19 @@ export const App = () => {
     useEffect(hook, []);
 
     const handleFilterChange = (event) => {
-        const filter = event.target.value
-        setFilterCountries(allCountries.filter(country =>
-            country.name.official.toLowerCase().includes(filter.toLowerCase())
+        setFilter(event.target.value)
+        handleCountriesFilter(allCountries.filter(country =>
+            country.name.official.toLowerCase().includes(event.target.value.toLowerCase())
         ))
-        setFilter(filter)
     }
 
+    const handleCountriesFilter = (countries) =>{
+        setFilterCountries(countries)
+    }
     return (
         <div>
-            {newFilter}
             <Filter filter={newFilter} handleFilter={handleFilterChange} />
-            <List countries={filterCountries} setFilterCountries={setFilterCountries}/>
+            <List countries={filterCountries} handleCountriesFilter={handleCountriesFilter} filter={newFilter}/>
         </div>
     )
 

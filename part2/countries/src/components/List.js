@@ -1,7 +1,8 @@
 import React from "react";
 import Country from "./Country";
 
-export const List = ({countries, setFilterCountries}) => {
+export const List = ({countries, handleCountriesFilter}) => {
+
     const tam = countries.length
     if (tam > 10) {
         return (
@@ -11,7 +12,7 @@ export const List = ({countries, setFilterCountries}) => {
         return (
             <ul>
             {countries.map(country =>
-                (<li key={country.name.common}>{country.name.official} <button onClick={()=>{setFilterCountries([country])}}>show</button>
+                (<li key={country.name.common}>{country.name.official} <button onClick={()=>{handleCountriesFilter([country])}}>show</button>
                 </li>)
             )
             }

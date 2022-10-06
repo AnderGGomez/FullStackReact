@@ -1,85 +1,58 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
-/*
-const Display = ({ country }) => {
-    return (
-        <div>
-            <h1>{country.name.common}</h1>
-            <p>Capital {country.capital}</p>
-            <p>Population {country.population}</p>
-            <h2>Language</h2>
-            <ul>
-                {
-                    Object.values(country.languages)
-                        .map(element =>
-                            <li key={element}>{element}</li>
-                        )
-                }
-            </ul>
-            <img src={country.flags.png}></img>
-        </div>
-    )
-}
-
-const DisplayList = ({ countries}) => {
-    const [show, setShow] = useState(false)
-
-    const handleShowChange = () =>{
-        setShow(!show)
-    }
-
-    return (
-        <ul>
-            {countries.map(country =>
-                (<li key={country.name.common}>{country.name.official} <button value={country} onClick={handleShowChange}>{ !show ? 'show':'hide'}</button>
-                </li>)
-            )
-            }
-        </ul>
-    )
-}
-
-const Validate = ({ countriesFilter }) => {
-    const tam = countriesFilter.length
-    if (tam > 10) {
-        return (
-            <p>Demasiados paises, se mas especifico</p>
-        )
-    } else if (tam > 1 && tam <= 10) {
-        return (
-            <DisplayList countries={countriesFilter} />
-        )
-    } else if (tam === 1) {
-        const [country] = countriesFilter
-        return (
-            <Display country={country} />
-        )
-    } else {
-        return(
-            <p>Nada para mostrar</p>
-        )
-        
-    }
-}
-*/
 export const Country = ({country}) => {
-    return (
+    const [currentWeather, setCurrentWeather] = useState(undefined)
+    const apiKey =  process.env.REACT_APP_API_KEY;
+
+    const weatherHook = () =>{
+        axios.get(`http://api.weatherstack.com/current?access_key=${apiKey}&query=${country.name.common}`)
+        .then(response => {
+            setCurrentWeather(response.data)})
+    }
+    useEffect(weatherHook,[])
+
+    if(currentWeather){
+        return (
+            <div>
+                <h1>{country.name.common}</h1>
+                <p>Capital {country.capital}</p>
+                <p>Population {country.population}</p>
+                <h2>Language</h2>
+                <ul>
+                    {
+                        Object.values(country.languages)
+                            .map(element =>
+                                <li key={element}>{element}</li>
+                            )
+                    }
+                </ul>
+                <img src={country.flags.png}></img>
+                <h2>Weather in {country.capital}</h2>
+                <p>Temperature: {currentWeather.current.temperature}</p>
+                <img src={currentWeather.current.weather_icons}></img>
+                <p>Wind: {currentWeather.current.wind_speed} mph, direction {currentWeather.current.wind_dir}</p>
+            </div>
+        )
+    }else{
         <div>
-            <h1>{country.name.common}</h1>
-            <p>Capital {country.capital}</p>
-            <p>Population {country.population}</p>
-            <h2>Language</h2>
-            <ul>
-                {
-                    Object.values(country.languages)
-                        .map(element =>
-                            <li key={element}>{element}</li>
-                        )
-                }
-            </ul>
-            <img src={country.flags.png}></img>
-        </div>
-    )
+                <h1>{country.name.common}</h1>
+                <p>Capital {country.capital}</p>
+                <p>Population {country.population}</p>
+                <h2>Language</h2>
+                <ul>
+                    {
+                        Object.values(country.languages)
+                            .map(element =>
+                                <li key={element}>{element}</li>
+                            )
+                    }
+                </ul>
+                <img src={country.flags.png}></img>
+                <h2>Weather in {country.capital}</h2>
+                <p>Ho hay datos</p>
+            </div>
+    }
 }
 
 
