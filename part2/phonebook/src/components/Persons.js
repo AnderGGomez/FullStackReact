@@ -1,17 +1,20 @@
 import React from "react";
 
-const Display = ({person}) => {
+const Display = ({person, toggleDeletePerson}) => {
     return (
-        <li>{person.name} {person.number}</li>
+        <li>
+            {person.name} {person.number}
+            <button onClick={toggleDeletePerson}>delete</button>
+        </li>
     )
 }
 
-export const Persons = ({ persons, filter }) => {
+export const Persons = ({ persons, filter, deletePerson}) => {
     return (
       <ul>
         {persons
             .filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
-            .map(person=>(<Display key={person.name} person={person}/>))}
+            .map(person=>(<Display key={person.name} person={person} toggleDeletePerson={()=>deletePerson(person.id)}/>))}
       </ul>
     )
 }

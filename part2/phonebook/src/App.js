@@ -1,8 +1,8 @@
-import React, { useState, useEffect} from "react"
-import axios from "axios"
+import React, { useState, useEffect } from "react"
 import Filter from "./components/Filter"
 import PersonForm from "./components/PersonForm"
-import  Persons  from "./components/Persons"
+import Persons from "./components/Persons"
+import personService from "./services/person"
 
 export const App = () => {
   const [persons, setPersons] = useState([])
@@ -11,33 +11,48 @@ export const App = () => {
   const [newFilter, setNewFilter] = useState('')
 
   const hook = () => {
-    axios
-    .get('http://localhost:3001/persons')
-    .then(response =>{
-      const persons = response.data
-      setPersons(persons)
-    })
+    personService
+      .getAll()
+      .then(allPersons => {
+        setPersons(allPersons)
+      })
   }
-
-  useEffect(hook,[])
+  useEffect(hook, [])
 
   const addPerson = (event) => {
     event.preventDefault()
-    if (persons.includes(persons.find(person => person.name === newName))) {
-      alert(`${newName} ya fue agregado a la lista`)
-    } else if (newNumber === '') {
-      alert(`Agregue un numero para ${newName}`)
-    } else {
-      const personObject = {
+    const personObject = {
         name: newName,
         number: newNumber,
       }
-      setPersons(persons.concat(personObject))
+    if (persons.includes(persons.find(person => person.name === personObject.name))) {
+      updatePerson(personObject)
+    } else if (personObject.number === '') {
+      alert(`Agregue un numero para ${newName}`)
+    } else {
+      personService
+        .addPerson(personObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+        })
+        setNewName('')
+        setNewNumber('')
+    }
+
+  }
+
+  const updatePerson = (personObject) => {
+    const person = persons.find(p => p.name === personObject.name);
+    if(window.confirm(`${person.name} ya se encuentra agregado a la lista de contactos, ¿Quiere remplazar el antiguo numero por el numero numero?`)){
+      personService
+      .updatePerson(person.id, personObject)
+      .then (returnedPerson =>{
+        setPersons(persons.map(p => p.id !== person.id ? p : returnedPerson))
+      })
       setNewName('')
       setNewNumber('')
     }
   }
-
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -51,15 +66,25 @@ export const App = () => {
     setNewFilter(event.target.value)
   }
 
+  const deletePerson = (id) => {
+    const person = persons.find(person => person.id === id);
+    if (window.confirm(`Quieres eliminar a ${person.name} ?`)) {
+      personService
+        .deletePerson(id)
+        .then(returnedPersons => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+    }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
       <Filter newFilter={newFilter} handleFilter={handleFilterChange} />
       <h2>Add a new</h2>
-      <PersonForm addPerson={addPerson} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange}/>
+      <PersonForm addPerson={addPerson} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
-      <Persons persons={persons} filter={newFilter}/>
-      
+      <Persons persons={persons} filter={newFilter} deletePerson={deletePerson} />
     </div>
   )
 }
