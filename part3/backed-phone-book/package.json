@@ -1,0 +1,20 @@
+{
+  "name": "backed-phone-book",
+  "version": "0.0.1",
+  "description": "Backend agenda telefonica",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "author": "anderson.gomez@utp.edu.co",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
