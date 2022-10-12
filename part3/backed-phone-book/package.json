@@ -10,7 +10,8 @@
     "build:ui": "rm -rf build && cd ../../GitHub/FullStack/FullStackReact/part2/phonebook && npm run build --prod && cp -r build ../../../../../Heroku/backed-phone-book/",
     "deploy": "git push heroku main",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
-    "logs:prod": "heroku logs --tail"
+    "logs:prod": "heroku logs --tail",
+    "lint": "eslint ."
   },
   "author": "anderson.gomez@utp.edu.co",
   "license": "ISC",
@@ -19,9 +20,16 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongoose": "^6.6.5",
+    "mongoose-unique-validator": "^3.1.0",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint": "^8.25.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "nodemon": "^2.0.20"
   }
 }

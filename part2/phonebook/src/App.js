@@ -44,11 +44,11 @@ export const App = () => {
             setNewMessage({ ...newMessage, type: "null" })
           }, 2000)
         }).catch(error => {
-          const errorMsg = { message: `Error al agregar el contacto ${personObject.name}`, type: "error" }
+          const errorMsg = { message: error.response.data.error, type: "error" }
           setNewMessage(errorMsg)
           setTimeout(() => {
             setNewMessage({ ...newMessage, type: "null" })
-          }, 2000)
+          }, 5000)
         })
       setNewName('')
       setNewNumber('')
@@ -68,13 +68,12 @@ export const App = () => {
             setNewMessage({ ...newMessage, type: "null" })
           }, 2000)
         }).catch(error => {
-          const errorMsg = { message: `Error al actualizar, el contacto ${person.name} fue eliminado del servidor`, type: "error" }
+          const errorMsg = { message: error.response.data.error, type: "error" }
           setNewMessage(errorMsg)
           setTimeout(() => {
             setNewMessage({ ...newMessage, type: "null" })
-          }, 2000)
+          }, 5000)
         })
-      setPersons(persons.filter(p => p.id !== person.id))
       setNewName('')
       setNewNumber('')
     }
