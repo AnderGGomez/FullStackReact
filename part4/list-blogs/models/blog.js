@@ -1,21 +1,25 @@
 const mongoose = require('mongoose')
-const url = process.env.MONGODB_URI
 
-//Conexion a la base de datos
-mongoose.connect(url)
-  .then(() => {
-    console.log('connected to MongoDB model');
-  })
-  .catch(error => {
-    console.log('Error connecting to MongoDB',error.message);
-  })
 
 //Construir el esquema del blog
 const blogSchema = new mongoose.Schema({
-  title: String,
+  title: {
+    type: String,
+    required: true
+  },
   author: String,
-  url: String,
-  likes: Number
+  url: {
+    type: String,
+    required: true
+  },
+  likes: {
+    type: Number, 
+    default:0
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
 })
 
 //Definir la manera en la que se mostraran los datos al usuario.
