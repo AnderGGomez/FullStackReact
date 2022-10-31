@@ -9,7 +9,9 @@ usersRouter.get('/', async (request, response) => {
 
 usersRouter.post('/', async (request, response) => {
   const {name, username, password} = request.body
-
+  if (password.length < 3){
+    return response.status(400).json({error: 'La passaword debe tener al menos 3 caracteres'})
+  }
   const userExist = await User.findOne({ username })
 
   if (userExist){
@@ -19,13 +21,13 @@ usersRouter.post('/', async (request, response) => {
   const saltRounds = 10
   const passwordHash = await bcryptjs.hash(password, saltRounds)
 
-  const user = new User({
+  const userObj = new User({
       username: username,
       name: name,
       passwordHash: passwordHash
     })
 
-  const saveUser = await user.save()
+  const saveUser = await userObj.save()
   response.status(201).json(saveUser)
 })
 
