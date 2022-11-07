@@ -1,17 +1,38 @@
+import { useState } from "react"
 
-const Display = ({blog}) => {
+const Display = ({visible, blog, changeVisibility}) => {
+  const label = visible ? 'hide' : 'show'
   return (
-    <li>
-      {blog.title} {blog.author}
-    </li>
+    <div>
+      <p>Title:{blog.title} - Author: {blog.author} <button onClick={changeVisibility}>{label}</button></p>
+      {visible ? <div>
+        <p>URL:{blog.url}</p>
+        <p>Likes:{blog.likes}</p>
+      </div> : null}
+    </div>
+      
   )
 }
 
-const Blog = ({blogs}) => {
+const Blog = ({blog}) => {
+  const [visible, setVisible]=useState(false)
+  
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5
+  }
+
+  const changeVisibility = () => {
+    setVisible(!visible)
+  }
   return (
-      <ul>
-        {blogs.map(blog => <Display key={blog.id} blog={blog}/>)}
-      </ul>
+    <div style={blogStyle}>
+        <Display visible={visible} blog={blog} changeVisibility={changeVisibility}/>
+    </div>
+      
     )
 }
   
