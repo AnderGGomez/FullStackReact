@@ -64,9 +64,7 @@ blogsRouter.delete('/:id', async (request, response) => {
 blogsRouter.put('/:id', async (request, response) => {
   const filter = { _id: request.params.id }
   const updatedBlog = request.body
-
-  const saveBlog = await Blog.findByIdAndUpdate(filter, updatedBlog)
-
+  const saveBlog = await Blog.findByIdAndUpdate(filter, updatedBlog, {new:true})
   if (saveBlog) {
     response.status(200).json(saveBlog)
   } else {

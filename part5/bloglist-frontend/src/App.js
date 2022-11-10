@@ -54,6 +54,7 @@ const App = () => {
         setNewMessage({ message: "", type: null })
       }, 2000)
     } catch (error) {
+      console.log(error)
       setNewMessage({ message: 'Credenciales incorrectas', type: "error" })
       setTimeout(() => {
         setNewMessage({ message: "", type: null })
@@ -76,6 +77,41 @@ const App = () => {
         setNewMessage({ message: "", type: null })
       }, 2000)
     }
+  }
+
+  const handleUpdateBlog = async (editBlog) => {
+    try {
+      const blogUpdate = await blogService.update(editBlog.id, editBlog)
+      setBlogs(blogs.map(blog => blog.id !== editBlog.id ? blog : blogUpdate))
+      setNewMessage({ message: `${blogUpdate.title} ha recibido un like`, type: "success" })
+      setTimeout(() => {
+        setNewMessage({ message: "", type: null })
+      }, 2000)
+    } catch (error) {
+      setNewMessage({ message: `error al actualizar`, type: "error" })
+      setTimeout(() => {
+        setNewMessage({ message: "", type: null })
+      }, 2000)
+    }
+  }
+
+  const handleRemoveBlog = async (deleteBlog) => {
+    if (window.confirm(`seguro que quieres eliminar el blog : ${deleteBlog.title}`)) {
+      try {
+        await blogService.remove(deleteBlog.id)
+        setBlogs(blogs.filter(blog => blog.id !== deleteBlog.id))
+        setNewMessage({ message: `${deleteBlog.title} fue eliminado con exito`, type: "success" })
+        setTimeout(() => {
+          setNewMessage({ message: "", type: null })
+        }, 2000)
+      } catch (error) {
+        setNewMessage({ message: `error al eliminar`, type: "error" })
+        setTimeout(() => {
+          setNewMessage({ message: "", type: null })
+        }, 2000)
+      }
+    }
+
   }
 
   if (user === null) {
@@ -104,7 +140,7 @@ const App = () => {
       </Togglable>
 
       <h2>blogs</h2>
-      {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
+      {blogs.sort((a, b) => a.likes > b.likes).map(blog => <Blog key={blog.id} blog={blog} user={user} handleUpdateBlog={handleUpdateBlog} handleRemoveBlog={handleRemoveBlog} />)}
     </div>
   )
 }
