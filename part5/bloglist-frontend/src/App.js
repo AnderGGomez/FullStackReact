@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import React,{ useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
@@ -10,7 +10,7 @@ import Togglable from './components/Togglable'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [newMessage, setNewMessage] = useState({ message: "error", type: null })
+  const [newMessage, setNewMessage] = useState({ message: 'error', type: null })
   const blogFormRef = useRef()
 
   useEffect(() => {
@@ -19,9 +19,9 @@ const App = () => {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
       blogService.setToken(user.token)
-      setNewMessage({ message: `${user.username} ha iniciado sesion`, type: "success" })
+      setNewMessage({ message: `${user.username} ha iniciado sesion`, type: 'success' })
       setTimeout(() => {
-        setNewMessage({ message: "", type: null })
+        setNewMessage({ message: '', type: null })
       }, 2000)
     }
   }, [])
@@ -36,9 +36,9 @@ const App = () => {
     if (user) {
       window.localStorage.removeItem('loggedBlogAppUser')
       setUser(null)
-      setNewMessage({ message: 'sesion cerrada', type: "success" })
+      setNewMessage({ message: 'sesion cerrada', type: 'success' })
       setTimeout(() => {
-        setNewMessage({ message: "", type: null })
+        setNewMessage({ message: '', type: null })
       }, 2000)
     }
   }
@@ -49,15 +49,15 @@ const App = () => {
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setUser(user)
-      setNewMessage({ message: `${user.username} ha iniciado sesion`, type: "success" })
+      setNewMessage({ message: `${user.username} ha iniciado sesion`, type: 'success' })
       setTimeout(() => {
-        setNewMessage({ message: "", type: null })
+        setNewMessage({ message: '', type: null })
       }, 2000)
     } catch (error) {
       console.log(error)
-      setNewMessage({ message: 'Credenciales incorrectas', type: "error" })
+      setNewMessage({ message: 'Credenciales incorrectas', type: 'error' })
       setTimeout(() => {
-        setNewMessage({ message: "", type: null })
+        setNewMessage({ message: '', type: null })
       }, 2000)
     }
   }
@@ -67,14 +67,14 @@ const App = () => {
       blogFormRef.current.toggleVisibility()
       const savedBlog = await blogService.create(newBlog)
       setBlogs(blogs.concat(savedBlog))
-      setNewMessage({ message: `El blog ${savedBlog.title} escrito por ${savedBlog.author} se ha creado correctamente`, type: "success" })
+      setNewMessage({ message: `El blog ${savedBlog.title} escrito por ${savedBlog.author} se ha creado correctamente`, type: 'success' })
       setTimeout(() => {
-        setNewMessage({ message: "", type: null })
+        setNewMessage({ message: '', type: null })
       }, 5000)
     } catch (error) {
-      setNewMessage({ message: `No se pudo crear el blog ${newBlog.title}`, type: "error" })
+      setNewMessage({ message: `No se pudo crear el blog ${newBlog.title}`, type: 'error' })
       setTimeout(() => {
-        setNewMessage({ message: "", type: null })
+        setNewMessage({ message: '', type: null })
       }, 2000)
     }
   }
@@ -83,14 +83,14 @@ const App = () => {
     try {
       const blogUpdate = await blogService.update(editBlog.id, editBlog)
       setBlogs(blogs.map(blog => blog.id !== editBlog.id ? blog : blogUpdate))
-      setNewMessage({ message: `${blogUpdate.title} ha recibido un like`, type: "success" })
+      setNewMessage({ message: `${blogUpdate.title} ha recibido un like`, type: 'success' })
       setTimeout(() => {
-        setNewMessage({ message: "", type: null })
+        setNewMessage({ message: '', type: null })
       }, 2000)
     } catch (error) {
-      setNewMessage({ message: `error al actualizar`, type: "error" })
+      setNewMessage({ message: 'error al actualizar', type: 'error' })
       setTimeout(() => {
-        setNewMessage({ message: "", type: null })
+        setNewMessage({ message: '', type: null })
       }, 2000)
     }
   }
@@ -100,14 +100,14 @@ const App = () => {
       try {
         await blogService.remove(deleteBlog.id)
         setBlogs(blogs.filter(blog => blog.id !== deleteBlog.id))
-        setNewMessage({ message: `${deleteBlog.title} fue eliminado con exito`, type: "success" })
+        setNewMessage({ message: `${deleteBlog.title} fue eliminado con exito`, type: 'success' })
         setTimeout(() => {
-          setNewMessage({ message: "", type: null })
+          setNewMessage({ message: '', type: null })
         }, 2000)
       } catch (error) {
-        setNewMessage({ message: `error al eliminar`, type: "error" })
+        setNewMessage({ message: 'error al eliminar', type: 'error' })
         setTimeout(() => {
-          setNewMessage({ message: "", type: null })
+          setNewMessage({ message: '', type: null })
         }, 2000)
       }
     }
