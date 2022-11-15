@@ -5,11 +5,10 @@ const Display = ({ visible, blog, changeVisibility, changeLike, deleteBlog, user
   const remove = { display: user.name !== blog.user.name ? 'none' : '' }
   return (
     <div>
-      <p>Title:{blog.title}<button onClick={changeVisibility}>{label}</button></p>
+      <p>{blog.title}-{blog.author}<button onClick={changeVisibility}>{label}</button></p>
       {visible ? <div>
         <p>URL:{blog.url}</p>
         <p>Likes:{blog.likes} <button onClick={changeLike}>Like</button></p>
-        <p>Author: {blog.author} </p>
         <div style={remove}>
           <button onClick={deleteBlog}>remove</button>
         </div>
