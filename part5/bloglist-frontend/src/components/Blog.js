@@ -4,9 +4,9 @@ const Display = ({ visible, blog, changeVisibility, changeLike, deleteBlog, user
   const label = visible ? 'hide' : 'show'
   const remove = { display: user.name !== blog.user.name ? 'none' : '' }
   return (
-    <div>
+    <div className='basic'>
       <p>{blog.title}-{blog.author}<button onClick={changeVisibility}>{label}</button></p>
-      {visible ? <div>
+      {visible ? <div className='extra'>
         <p>URL:{blog.url}</p>
         <p>Likes:{blog.likes} <button onClick={changeLike}>Like</button></p>
         <div style={remove}>
@@ -42,7 +42,7 @@ const Blog = ({ blog, user, handleUpdateBlog, handleRemoveBlog }) => {
     handleRemoveBlog(blog)
   }
   return (
-    <div style={blogStyle}>
+    <div className='blog' style={blogStyle}>
       <Display visible={visible} blog={blog} changeVisibility={changeVisibility} changeLike={changeLike} deleteBlog={deleteBlog} user={user} />
     </div>
 
