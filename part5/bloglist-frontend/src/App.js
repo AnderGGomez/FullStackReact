@@ -1,4 +1,4 @@
-import React,{ useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
@@ -82,7 +82,7 @@ const App = () => {
   const handleUpdateBlog = async (editBlog) => {
     try {
       const blogUpdate = await blogService.update(editBlog.id, editBlog)
-      setBlogs(blogs.map(blog => blog.id !== editBlog.id ? blog : blogUpdate))
+      setBlogs(blogs.map(blog => blog.id !== editBlog.id ? blog : { ...blog, likes: blogUpdate.likes }))
       setNewMessage({ message: `${blogUpdate.title} ha recibido un like`, type: 'success' })
       setTimeout(() => {
         setNewMessage({ message: '', type: null })
@@ -131,7 +131,7 @@ const App = () => {
       <Notification notification={newMessage} />
       <p>
         {user.name} logged-in
-        <button onClick={logout}>log out</button>
+        <button id="log-out" onClick={logout}>log out</button>
       </p>
       <Togglable buttonLabel='new Blog' ref={blogFormRef}>
         <BlogForm
@@ -140,7 +140,18 @@ const App = () => {
       </Togglable>
 
       <h2>blogs</h2>
-      {blogs.sort((a, b) => a.likes > b.likes).map(blog => <Blog key={blog.id} blog={blog} user={user} handleUpdateBlog={handleUpdateBlog} handleRemoveBlog={handleRemoveBlog} />)}
+      <div className='blogs'>
+        {
+          blogs
+            .sort((a, b) => b.likes - a.likes)
+            .map(blog =>
+              <Blog key={blog.id}
+                blog={blog}
+                user={user}
+                handleUpdateBlog={handleUpdateBlog}
+                handleRemoveBlog={handleRemoveBlog}
+              />)}
+      </div>
     </div>
   )
 }
