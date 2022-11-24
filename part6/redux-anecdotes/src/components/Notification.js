@@ -15,29 +15,11 @@ const Display = ({message}) => {
 }
 const Notification = () => {
   const notificacion = useSelector(state => state.notification)
-  let message = ''
-  switch (notificacion.type) {
-    case 'voted':
-      message = `has votado por: ${notificacion.message}`
-      return(
-        <Display message={message}/>
-      )
-    case 'create':
-      message = `has creado a: ${notificacion.message}`
-      return(
-        <Display message={message}/>
-      )
-    default:
-      break;
+  if(notificacion !== '') {
+    return (
+      <Display message={notificacion} />
+    )
   }
-  if (notificacion.type === 'voted') {
-    
-  }
-  return (
-    <div>
-
-    </div>
-  )
 }
 
 export default Notification

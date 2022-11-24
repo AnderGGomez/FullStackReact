@@ -1,47 +1,42 @@
 
 const reducer = (state = '',action) => {
   switch(action.type){
-    case 'VOTE_ANECDOTE':
-      return action.data
+    case 'SET':
+      return action.data.message
     case 'END_NOTIFICATION':
-      return action.data
-    case 'CREATE_ANECDOTE':
-      return action.data
+      return action.data.message
     default:
       return state
   }
 }
 
-export const notificationVote = (message) => {
-  return {
-    type: 'VOTE_ANECDOTE',
-    data: {
-      type: 'voted',
-      message: message
-    }
+export const setNotification = (message, time=5000) => {
+  return async dispatch => {
+    dispatch({
+      type:'SET',
+      data:{message}
+    })
+    setTimeout(() => {
+      dispatch(notificationEnd())
+    }, time);
   }
+  /*return {
+    type: 'SET',
+    data: {
+      message
+    }
+  }*/
 }
 
 export const notificationEnd = () => {
   return {
     type: 'END_NOTIFICATION',
     data: {
-      type: null,
       message: ''
     }
   }
 }
 
-
-export const notificationMake = (message) => {
-  return {
-    type: 'CREATE_ANECDOTE',
-    data: {
-      type: 'create',
-      message: message
-    }
-  }
-}
 
 
 export default reducer
