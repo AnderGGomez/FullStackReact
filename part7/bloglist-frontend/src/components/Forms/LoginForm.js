@@ -2,6 +2,7 @@ import React from 'react'
 import useField from '../../hooks/useField'
 import { useDispatch } from 'react-redux'
 import { loginUser } from '../../reducers/loginReducer'
+import { Button, PasswordInput, TextInput } from '../estilos'
 
 const LoginForm = () => {
   const dispatch = useDispatch()
@@ -24,14 +25,12 @@ const LoginForm = () => {
   return (
     <form onSubmit={login}>
       <div>
-        username
-        <input {...username} />
+        <TextInput placeholder='Username'{...username} />
       </div>
       <div>
-        password
-        <input {...password}/>
+        <PasswordInput placeholder='Password'{...password}/>
       </div>
-      <button id="login-form" type='submit'>login</button>
+      <Button id="login-form" type='submit'>login</Button>
     </form>
   )
 }

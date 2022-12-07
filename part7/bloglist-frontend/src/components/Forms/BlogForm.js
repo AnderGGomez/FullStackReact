@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import useField from '../../hooks/useField'
 import { createBlog } from '../../reducers/blogReducer'
-import { setNotification } from '../../reducers/notificationReducer'
 
 const BlogForm = () => {
   const dispatch = useDispatch()
@@ -26,7 +25,6 @@ const BlogForm = () => {
       url: url.value,
     }
     dispatch(createBlog(newBlog))
-    dispatch(setNotification(`se ha creado el blog ${newBlog.title} by ${newBlog.author}`))
     clear()
     navigate('/')
   }

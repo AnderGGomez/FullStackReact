@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import { Button, ContentContainer, Grid, ItemContainer } from './estilos'
 
 const BlogList = () => {
   const blogs = useSelector(state => state.blogs.sort((a, b) => b.likes - a.likes))
@@ -9,16 +10,19 @@ const BlogList = () => {
   return (
     <div>
       {user && (
-        <button onClick={() => { navigate('/newBlog') }}>Nuevo Blog</button>
+        <Button  onClick={() => { navigate('/newBlog') }}>Nuevo Blog</Button>
       )}
-      <div>
+      <Grid>
         {blogs.map(blog =>
-          <div key={blog.id}>
-            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-          </div>
+          <Link key={blog.id} to={`/blogs/${blog.id}`}>
+            <ItemContainer>
+              <ContentContainer $mode='primary'>
+                {blog.title}
+              </ContentContainer>
+            </ItemContainer>
+          </Link>
         )}
-      </div>
-
+      </Grid>
     </div>
 
 

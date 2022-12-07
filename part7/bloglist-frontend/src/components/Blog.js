@@ -2,13 +2,14 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { likeBlog, removeBlog } from '../reducers/blogReducer'
+import { BlogContainer, Button, CommentContainer, ContentContainer, ExternalLink, Title } from './estilos'
 import CommentForm from './Forms/CommentForm'
 
 
 
 const Comments = ({ blog }) => {
   return (
-    <div>
+    <CommentContainer>
       <h2>Comments</h2>
       <CommentForm idBlog={blog.id}/>
       <ul>
@@ -18,7 +19,7 @@ const Comments = ({ blog }) => {
           </li>
         ))}
       </ul>
-    </div>
+    </CommentContainer>
   )
 }
 
@@ -40,31 +41,32 @@ const Blog = () => {
   }
 
   const deleteBlog = () => {
-    dispatch(removeBlog(blog.id))
+    dispatch(removeBlog(blog))
     navigate('/')
   }
-  console.log(blog)
   return (
     <div>
       {blog && (
-        <div>
-          <h2>{blog.title}</h2>
-          <div>
-            <a target="_blank" href={blog.url} rel="noreferrer">{blog.url}</a>
-          </div>
-          <div>
-            {blog.likes} likes <button onClick={changeLike}>Like</button>
-          </div>
-          <div>
-            Creado por {blog.author}
-          </div>
+        <BlogContainer>
+          <Title>{blog.title}</Title>
+          <ContentContainer>
+            <div>
+              <ExternalLink target="_blank" href={blog.url} rel="noreferrer">{blog.url}</ExternalLink>
+            </div>
+            <div>
+              {blog.likes} likes <Button $mode='primary' onClick={changeLike}>Like</Button>
+            </div>
+            <div>
+              Creado por {blog.author}
+            </div>
+          </ContentContainer>
           <Comments blog={blog}/>
           {session.username === blog.user.username && (
             <div>
-              <button onClick={deleteBlog}>remove</button>
+              <Button onClick={deleteBlog}>remove</Button>
             </div>
           )}
-        </div>
+        </BlogContainer>
       ) }
     </div>
   )

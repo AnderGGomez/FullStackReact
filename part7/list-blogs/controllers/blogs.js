@@ -52,7 +52,8 @@ blogsRouter.post('/', async (request, response) => {
   const savedBlog = await blogObj.save()
   user.blogs = user.blogs.concat(savedBlog.id)
   await user.save()
-  response.status(201).json(savedBlog)
+  const blogPopulate = await savedBlog.populate('user', { username: 1, name: 1 })
+  response.status(201).json(blogPopulate)
 })
 
 blogsRouter.get('/:id', async (request, response) => {
@@ -74,6 +75,7 @@ blogsRouter.delete('/:id', async (request, response) => {
   if (blog) {
     if (decodeToken.id.toString() === blog.user.toString()) {
       await Blog.findByIdAndRemove(blog.id)
+      await Comment.deleteMany({blog: blog.id})
       response.status(204).end()
     } else {
       response.status(401).json({ error: `El usuario ${decodeToken.username} no esta autorizado para eliminar este blog` })

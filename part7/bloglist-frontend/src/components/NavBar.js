@@ -2,29 +2,33 @@ import { useDispatch, useSelector } from 'react-redux'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { logoutUser } from '../reducers/loginReducer'
+import { Button, Navigation } from './estilos'
 
 const NavBar = () => {
   const user = useSelector(state => state.login)
   const dispatch = useDispatch()
 
+  const padding = {
+    padding : '1em'
+  }
   const logout = () => {
     dispatch(logoutUser())
   }
   return (
-    <div>
+    <Navigation>
       {user ? (
         <div>
-          <Link to='/'>Blogs</Link>
-          <Link to='/users'>Users</Link>
-          {user.name} esta logeado <button onClick={logout}>logout</button>
+          <Link style={padding} to='/'>Blogs</Link>
+          <Link style={padding} to='/users'>Users</Link>
+          <span style={padding}>{user.name} Logged in</span> <Button $mode='primary' onClick={logout}>logout</Button>
         </div>
       ) : (
         <div>
-          <Link to='/login>'>Login</Link>
+          <Link style={padding} to='/login'>Login</Link>
         </div>
 
       )}
-    </div>
+    </Navigation>
   )
 }
 

@@ -7,6 +7,8 @@ import { initUser } from './reducers/loginReducer'
 import { initializeUser } from './reducers/usersReducer'
 import Rutas from './components/Rutas'
 import NavBar from './components/NavBar'
+import { ThemeProvider } from 'styled-components'
+import { theme } from './components/estilos'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -22,10 +24,12 @@ const App = () => {
   console.log(user)
   return (
     <div>
-      <NavBar />
-      <Notification />
-      <h2>Blog App</h2>
-      <Rutas />
+      <ThemeProvider theme={theme}>
+        <NavBar />
+        <Notification />
+        <h2>Blog App</h2>
+        <Rutas />
+      </ThemeProvider>
     </div>
   )
 }
